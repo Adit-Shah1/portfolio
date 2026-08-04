@@ -69,8 +69,8 @@ export default function PetoryScene() {
                   data-phone
                   src={s.src}
                   alt={s.alt}
-                  width={390}
-                  height={884}
+                  width={500}
+                  height={896}
                   className="w-full rounded-2xl border border-line shadow-2xl"
                 />
               ))}

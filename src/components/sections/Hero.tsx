@@ -1,7 +1,10 @@
 import { site } from "@/data/site";
+import { getStats } from "@/lib/stats";
 import HeroCanvas from "@/components/fx/HeroCanvas";
 
-export default function Hero() {
+export default async function Hero() {
+  const { commits, weeks } = await getStats();
+
   return (
     <section
       data-theme="neutral"
@@ -37,7 +40,7 @@ export default function Hero() {
           className="hero-fade mt-10 max-w-xl text-lg leading-relaxed text-muted"
           style={{ "--d": "0.55s" } as React.CSSProperties}
         >
-          {site.claim}
+          {site.claim(commits, weeks)}
         </p>
         <p
           className="hero-fade mt-8 font-mono text-[13px] text-muted"

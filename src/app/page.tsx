@@ -8,6 +8,7 @@ import About from "@/components/sections/About";
 import Contact from "@/components/sections/Contact";
 
 export const dynamic = "error";
+export const revalidate = 86400;
 
 export default function Home() {
   return (

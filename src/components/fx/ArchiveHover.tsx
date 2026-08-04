@@ -17,24 +17,58 @@ export default function ArchiveHover() {
       const xTo = gsap.quickTo(el, "x", { duration: 0.45, ease: "power3" });
       const yTo = gsap.quickTo(el, "y", { duration: 0.45, ease: "power3" });
 
-      const onMove = (e: PointerEvent) => {
-        xTo(e.clientX + 28);
-        yTo(e.clientY - 110);
-      };
-      const onEnter = (row: HTMLElement) => {
+      let current: HTMLElement | null = null;
+
+      const show = (row: HTMLElement) => {
+        if (row === current) return;
+        current = row;
         img.src = row.dataset.preview ?? "";
         gsap.to(el, { autoAlpha: 1, scale: 1, duration: 0.35, ease: "power3.out" });
       };
-      const onLeave = () => {
+      const hide = () => {
+        if (!current) return;
+        current = null;
         gsap.to(el, { autoAlpha: 0, scale: 0.95, duration: 0.25, ease: "power3.out" });
       };
 
-      gsap.utils.toArray<HTMLElement>("[data-preview]").forEach((row) => {
-        row.addEventListener("pointerenter", () => onEnter(row));
-        row.addEventListener("pointerleave", onLeave);
-        row.addEventListener("pointermove", onMove);
-      });
-      // ponytail: listeners live as long as the page — single static page, no teardown needed
+      const onMove = (e: PointerEvent) => {
+        const row = (e.target as Element | null)?.closest<HTMLElement>("[data-preview]");
+        if (!row) {
+          hide();
+          return;
+        }
+        show(row);
+        xTo(e.clientX + 28);
+        yTo(e.clientY - 110);
+      };
+
+      // Leaving the window stops pointermove firing, which would freeze the
+      // card wherever it was. relatedTarget is null only when the pointer
+      // exits the document — moving between elements always names the one
+      // being entered.
+      const onOut = (e: PointerEvent) => {
+        if (!e.relatedTarget) hide();
+      };
+
+      // Position drives visibility, rather than per-row pointerenter/leave:
+      // pointerleave never fires when a link opens a new tab, when the tab
+      // loses focus with the cursor parked on a row, or when scrolling pulls
+      // the row out from under a still cursor — each one stranded the card.
+      document.addEventListener("pointermove", onMove);
+      document.addEventListener("pointerout", onOut);
+      document.addEventListener("contextmenu", hide);
+      window.addEventListener("scroll", hide, { passive: true });
+      window.addEventListener("blur", hide);
+      document.addEventListener("visibilitychange", hide);
+
+      return () => {
+        document.removeEventListener("pointermove", onMove);
+        document.removeEventListener("pointerout", onOut);
+        document.removeEventListener("contextmenu", hide);
+        window.removeEventListener("scroll", hide);
+        window.removeEventListener("blur", hide);
+        document.removeEventListener("visibilitychange", hide);
+      };
     });
   });
 

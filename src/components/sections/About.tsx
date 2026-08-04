@@ -17,9 +17,9 @@ export default function About() {
             </p>
             <p>
               This year that meant co-founding two startups with Saad Malik, shipping a production
-              site for a real client, and filling a hard drive with everything from C++ card
-              engines to computer-vision toys. The degree gives me the fundamentals; shipping gives
-              me everything else.
+              site for a real client, and filling a hard drive with everything from a watchOS car
+              app to computer-vision toys. The degree gives me the fundamentals; shipping gives me
+              everything else.
             </p>
             {/*
               Personality block — waiting on content from Adit:

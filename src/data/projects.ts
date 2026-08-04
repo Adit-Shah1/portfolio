@@ -28,6 +28,10 @@ export interface CaseStudy {
   oneLiner: string;
   narrative: string[];
   stack: string[];
+  /** GitHub "owner/name" repos behind this project — feeds the live commit count */
+  repos?: string[];
+  /** Screenshot shown on hover in the full log */
+  preview?: string;
   theme: ThemeName;
   media: {
     video?: { loop: string; webm?: string; full?: string; poster: string };
@@ -40,8 +44,9 @@ export interface CaseStudy {
 
 /**
  * THE EXTENSION POINT.
- * Shipped something new? Append one ArchiveItem below (newest date first),
- * optionally drop a preview image in /public/images/archive/, done.
+ * Shipped something new? Append one ArchiveItem below — `fullLog` sorts by
+ * date, so order doesn't matter. Add `repos` and its commits join the live
+ * count; optionally drop a preview image in /public/images/archive/, done.
  */
 export interface ArchiveItem {
   /** First-commit date, "YYYY-MM-DD"; omit if it isn't under git yet */
@@ -49,6 +54,8 @@ export interface ArchiveItem {
   name: string;
   oneLiner: string;
   stack: string[];
+  /** GitHub "owner/name" repos behind this project — feeds the live commit count */
+  repos?: string[];
   links?: ProjectLink[];
   preview?: string;
   status?: ProjectStatus;
@@ -70,16 +77,18 @@ export const caseStudies: CaseStudy[] = [
       "Pre-launch and Melbourne-first: the waitlist is open while we build the app itself.",
     ],
     stack: ["Next.js", "React", "Tailwind", "Supabase", "Groq", "Resend"],
+    repos: ["Adit-Shah1/petory", "Adit-Shah1/petory-app"],
+    preview: "/images/archive/petory.jpg",
     theme: "petory",
     media: {
       video: { loop: "/videos/petory-hero.mp4", poster: "/images/petory/hero-poster.jpg" },
       screens: [
-        { src: "/images/petory/screen-dashboard.png", alt: "Petory dashboard — your pet's whole world in one view" },
-        { src: "/images/petory/screen-feed.png", alt: "Petory private pet feed" },
-        { src: "/images/petory/screen-passport.png", alt: "Petory digital passport — every record in one place" },
+        { src: "/images/petory/screen-dashboard.jpg", alt: "Petory home — today's care checklist and the pet's timeline" },
+        { src: "/images/petory/screen-calendar.jpg", alt: "Petory calendar — walks, vet visits and grooming, assigned across the family" },
+        { src: "/images/petory/screen-passport.jpg", alt: "Petory digital passport — vaccinations and records, exportable for the vet" },
       ],
     },
-    links: [],
+    links: [{ label: "Visit petory.au", href: "https://www.petory.au/" }],
   },
   {
     slug: "vela",
@@ -96,6 +105,8 @@ export const caseStudies: CaseStudy[] = [
       "Saad leads the build; I co-found and build alongside him. Waitlist-stage while we get it right.",
     ],
     stack: ["Next.js", "LangGraph", "Gemini", "Supabase", "pgvector", "Canva API"],
+    repos: ["DAAS2/Vela"],
+    preview: "/images/archive/vela.jpg",
     theme: "vela",
     media: {
       video: {
@@ -105,7 +116,7 @@ export const caseStudies: CaseStudy[] = [
         poster: "/images/vela/vela-poster.jpg",
       },
     },
-    links: [],
+    links: [{ label: "Visit velamarketing.app", href: "https://www.velamarketing.app/" }],
   },
 ];
 
@@ -123,6 +134,8 @@ export const selectedWork: CaseStudy[] = [
       "Designed, built and deployed to production in under three weeks — and in use today.",
     ],
     stack: ["Next.js", "Sanity", "Supabase", "Resend", "Framer Motion"],
+    repos: ["Adit-Shah1/slsdesigns-website"],
+    preview: "/images/archive/sls.jpg",
     theme: "sls",
     media: {
       images: [
@@ -145,6 +158,7 @@ export const selectedWork: CaseStudy[] = [
       "OpenCV draws the live hand skeleton and pinch meter while AppleScript drives Apple Music. Everything runs on-device.",
     ],
     stack: ["Python", "MediaPipe", "OpenCV", "AppleScript"],
+    repos: ["Adit-Shah1/hand-gesture-controller"],
     theme: "gesture",
     media: { figure: "gesture-svg" },
     links: [{ label: "Read the code", href: "https://github.com/Adit-Shah1/hand-gesture-controller" }],
@@ -153,24 +167,43 @@ export const selectedWork: CaseStudy[] = [
 
 export const archive: ArchiveItem[] = [
   {
+    date: "2026-07-31",
+    name: "Carmate",
+    oneLiner:
+      "A connected-car app for a car that never had one — fuel and range estimation, automatic drive tracking, parked location, a lock log, a dashcam.",
+    stack: ["Swift", "SwiftUI", "iOS 26", "watchOS 26"],
+    repos: ["Adit-Shah1/carmate"],
+    status: "building",
+  },
+  {
+    date: "2026-07-07",
+    name: "How to Think",
+    oneLiner:
+      "Nine rules for debugging anything, distilled from one long session with Claude Fable 5.",
+    stack: ["HTML", "CSS"],
+    repos: ["Adit-Shah1/how-to-think"],
+    links: [
+      { label: "Live", href: "https://how-to-think.vercel.app" },
+      { label: "GitHub", href: "https://github.com/Adit-Shah1/how-to-think" },
+    ],
+    preview: "/images/archive/how-to-think.jpg",
+    status: "live",
+  },
+  {
     date: "2026-07-06",
     name: "This website",
     oneLiner: "The page you're reading — monochrome until the work brings its own colour.",
     stack: ["Next.js", "GSAP", "Lenis"],
+    repos: ["Adit-Shah1/portfolio"],
+    links: [{ label: "GitHub", href: "https://github.com/Adit-Shah1/portfolio" }],
     status: "live",
-  },
-  {
-    date: "2026-06-10",
-    name: "Mobishell",
-    oneLiner: "SwiftUI client for driving coding agents from a phone — Mosh, WebSockets, push. Early days.",
-    stack: ["Swift", "SwiftUI"],
-    status: "building",
   },
   {
     date: "2026-06-02",
     name: "Job Application Tracker",
     oneLiner: "Full-stack job-hunt manager: Kanban pipeline, five Gemini-powered assists, Playwright CI.",
     stack: ["Next.js", "Prisma", "Postgres", "Gemini"],
+    repos: ["Adit-Shah1/job-application-tracker"],
     links: [
       { label: "Live", href: "https://job-application-tracker-one-ochre.vercel.app/" },
       { label: "GitHub", href: "https://github.com/Adit-Shah1/job-application-tracker" },
@@ -178,25 +211,26 @@ export const archive: ArchiveItem[] = [
     preview: "/images/archive/jobtracker.png",
     status: "live",
   },
-  {
-    date: "2026-05-30",
-    name: "Blackjack",
-    oneLiner: "A casino in 10,000 lines of C++20 — rules engine, card-counting AI, TCP multiplayer, shipped as a .dmg.",
-    stack: ["C++20", "SDL2", "CMake", "Catch2"],
-    links: [{ label: "GitHub", href: "https://github.com/Adit-Shah1/blackjack-game" }],
-    status: "shipped",
-  },
-  {
-    date: "2026-05-27",
-    name: "UniVibe",
-    oneLiner: "48-hour Canva ImpactHack concept: helping new students belong before day one. With Saad Malik.",
-    stack: ["Next.js", "Supabase"],
-    status: "shipped",
-  },
-  {
-    name: "Jarvis",
-    oneLiner: "Voice-first macOS assistant — local Whisper STT, Piper TTS, a multi-model brain, a Three.js HUD.",
-    stack: ["Electron", "React", "Three.js", "Whisper"],
-    status: "coming-soon",
-  },
 ];
+
+const asLogItem = (c: CaseStudy): ArchiveItem => ({
+  date: c.gitInit,
+  name: c.name,
+  oneLiner: c.oneLiner,
+  stack: c.stack,
+  repos: c.repos,
+  links: c.links,
+  preview: c.preview,
+  status: c.status,
+});
+
+/**
+ * Every project on the site, newest first — the featured work folded in with
+ * the archive. Derived, so nothing here can drift out of sync with the
+ * sections above it.
+ */
+export const fullLog: ArchiveItem[] = [
+  ...caseStudies.map(asLogItem),
+  ...selectedWork.map(asLogItem),
+  ...archive,
+].sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));

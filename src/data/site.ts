@@ -1,7 +1,7 @@
 export const site = {
   name: "Adit Shah",
-  claim:
-    "First-year computer science student in Melbourne. 175+ commits in seven weeks, two startups in build — and counting.",
+  claim: (commits: number, weeks: number) =>
+    `First-year computer science student in Melbourne. ${commits} commits in ${weeks} weeks, two startups in build — and counting.`,
   statusLine: "melbourne · monash university · building petory & vela",
   availability: "Open to 2026/27 internships",
   email: "aditshreeshah@gmail.com",
@@ -10,15 +10,11 @@ export const site = {
   /** Drop resume.pdf into /public and set to "/resume.pdf" */
   resumeUrl: null as string | null,
   firstCommit: "2026-05-16",
-  // Stats are hardcoded on purpose: Vercel CI can't see the sibling repos on
-  // the T7 drive. Recompute locally with:
-  //   for r in "/Volumes/T7 Touch/repos"/*/; do git -C "$r" rev-list --all --count 2>/dev/null; done | paste -sd+ - | bc
-  stats: [
-    { value: 2, suffix: "", label: "startups in build" },
-    { value: 10, suffix: "", label: "projects on this page" },
-    { value: 175, suffix: "+", label: "commits since may 16" },
-    { value: 7, suffix: "", label: "weeks of shipping" },
-  ],
+  /**
+   * Last known good commit total. Only rendered when the GitHub API is
+   * unreachable or GITHUB_TOKEN is unset — see src/lib/github.ts.
+   */
+  commitsFallback: 137,
   meta: {
     title: "Adit Shah — first-year CS, already shipping",
     description:

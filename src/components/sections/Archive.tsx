@@ -1,4 +1,4 @@
-import { archive, statusLabel } from "@/data/projects";
+import { fullLog, statusLabel } from "@/data/projects";
 import Eyebrow from "@/components/ui/Eyebrow";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ArchiveHover from "@/components/fx/ArchiveHover";
@@ -12,11 +12,11 @@ export default function Archive() {
           <Eyebrow label="ls ~/repos --sort=date" />
           <SectionHeading>The full log.</SectionHeading>
           <p className="mt-8 max-w-xl text-muted">
-            Everything else that&apos;s left the laptop — newest first. This list only grows.
+            Everything that&apos;s left the laptop — newest first. This list only grows.
           </p>
         </div>
         <ul className="mt-16">
-          {archive.map((item) => (
+          {fullLog.map((item) => (
             <li
               key={item.name}
               data-reveal
