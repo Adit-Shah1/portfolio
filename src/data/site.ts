@@ -19,7 +19,8 @@ export const site = {
     title: "Adit Shah — first-year CS, already shipping",
     description:
       "First-year computer science student at Monash, Melbourne. Co-founding Petory and Vela, and shipping something new most weeks.",
-    // Updated to the real production URL at deploy time
-    url: "https://adit-shah.vercel.app",
+    // Drives metadataBase, canonical and OG tags — must be the live URL.
+    // Change this first if a custom domain is added.
+    url: "https://portfolio-flame-alpha-16.vercel.app",
   },
 };
