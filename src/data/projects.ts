@@ -1,4 +1,5 @@
 import type { ThemeName } from "@/lib/themes";
+import { site } from "@/data/site";
 
 export type ProjectStatus = "building" | "live" | "shipped" | "coming-soon";
 
@@ -195,7 +196,11 @@ export const archive: ArchiveItem[] = [
     oneLiner: "The page you're reading — monochrome until the work brings its own colour.",
     stack: ["Next.js", "GSAP", "Lenis"],
     repos: ["Adit-Shah1/portfolio"],
-    links: [{ label: "GitHub", href: "https://github.com/Adit-Shah1/portfolio" }],
+    links: [
+      // site.meta.url so a custom domain only ever changes in one place
+      { label: "Live", href: site.meta.url },
+      { label: "GitHub", href: "https://github.com/Adit-Shah1/portfolio" },
+    ],
     status: "live",
   },
   {
